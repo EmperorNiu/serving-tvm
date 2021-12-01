@@ -1,4 +1,5 @@
 # Description: Tensorflow Serving tvm servable
+load("//tensorflow_serving:serving.bzl", "serving_proto_library")
 
 package(
     default_visibility = ["//tensorflow_serving:internal"],
@@ -14,6 +15,27 @@ filegroup(
             "**/OWNERS",
         ],
     ),
+)
+
+cc_library(
+    name = "tvm_source_adapter",
+    srcs = ["tvm_source_adapter.cc", "tvm_factory.cc"],
+    hdrs = ["tvm_source_adapter.h", "tvm_factory.h"],
+    visibility = [
+        "//visibility:public",
+    ],
+    deps = [
+        ":tvm_source_adapter_proto",
+        ":tvm_config_proto",
+        ":tvm_loader",
+        "@org_tensorflow//tensorflow/core:framework",
+        "@org_tensorflow//tensorflow/core:lib",
+        "//tensorflow_serving/apis:input_proto",
+        "//tensorflow_serving/core:simple_loader",
+        "//tensorflow_serving/core:source_adapter",
+        "//tensorflow_serving/core:storage_path",
+    ],
+    alwayslink = 1,
 )
 
 cc_library(
@@ -55,4 +77,25 @@ cc_library(
 	        "@com_github_dmlc_tvm//3rdparty/dlpack/include",
 		"@com_github_dmlc_tvm//src/runtime"],
     alwayslink = 1,
+)
+
+serving_proto_library(
+    name = "tvm_source_adapter_proto",
+    srcs = ["tvm_source_adapter.proto"],
+    deps = [
+        ":tvm_config_proto",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
+    cc_api_version = 2,
+)
+
+serving_proto_library(
+    name = "tvm_config_proto",
+    srcs = ["tvm_config.proto"],
+    visibility = [
+        "//visibility:public",
+    ],
+    cc_api_version = 2,
 )

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package tensorflow.serving;
+
+import "tensorflow_serving/servables/tvm/tvm_config.proto";
+
+// Config proto for TVMSourceAdapter.
+message TVMSourceAdapterConfig {
+  TVMConfig config = 1;
+}
