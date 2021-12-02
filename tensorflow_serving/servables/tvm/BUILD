@@ -95,19 +95,19 @@ cc_library(
     alwayslink = 1,
 )
 
-cc_library(
-    name = "get_model_metadata_impl",
-    srcs = ["get_model_metadata_impl.cc"],
-    hdrs = ["get_model_metadata_impl.h"],
-    visibility = [
-        "//visibility:public",
-    ],
-    deps = [
-        "//tensorflow_serving/apis:get_model_metadata_proto",
-        "//tensorflow_serving/core:servable_handle",
-        "//tensorflow_serving/model_servers:server_core",
-    ],
-)
+# cc_library(
+#     name = "get_model_metadata_impl",
+#     srcs = ["get_model_metadata_impl.cc"],
+#     hdrs = ["get_model_metadata_impl.h"],
+#     visibility = [
+#         "//visibility:public",
+#     ],
+#     deps = [
+#         "//tensorflow_serving/apis:get_model_metadata_proto",
+#         "//tensorflow_serving/core:servable_handle",
+#         "//tensorflow_serving/model_servers:server_core",
+#     ],
+# )
 
 serving_proto_library(
     name = "tvm_source_adapter_proto",

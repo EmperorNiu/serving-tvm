@@ -9,7 +9,7 @@
 #include "tensorflow/core/framework/tensor.h"
 
 // TVM Headers
-#include <dlpack/dlpack.h>
+// #include <dlpack/dlpack.h>
 #include <tvm/runtime/module.h>
 #include <tvm/runtime/registry.h>
 #include <tvm/runtime/packed_func.h>

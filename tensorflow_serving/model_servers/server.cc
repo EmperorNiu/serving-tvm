@@ -296,6 +296,12 @@ Status Server::BuildAndStart(const Options& server_options) {
     session_bundle_config.set_num_tflite_pools(server_options.num_tflite_pools);
     options.platform_config_map =
         CreateTensorFlowPlatformConfigMap(session_bundle_config);
+    
+    // TVM
+    TVMConfig tvm_config;
+    tvm_config.set_session_target("tvm_target");
+    options.platform_config_map = CreateTVMPlatformConfigMap(
+      options.platform_config_map,tvm_config);
   } else {
     TF_RETURN_IF_ERROR(ParseProtoTextFile<PlatformConfigMap>(
         server_options.platform_config_file, &options.platform_config_map));

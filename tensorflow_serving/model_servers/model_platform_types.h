@@ -20,6 +20,7 @@ namespace tensorflow {
 namespace serving {
 
 constexpr char kTensorFlowModelPlatform[] = "tensorflow";
+constexpr char kTVMModelPlatform[] = "tvm";
 
 }  // namespace serving
 }  // namespace tensorflow

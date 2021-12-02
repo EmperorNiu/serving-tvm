@@ -42,12 +42,14 @@ limitations under the License.
 #include "tensorflow_serving/servables/tensorflow/predict_impl.h"
 #include "tensorflow_serving/servables/tensorflow/regression_service.h"
 #include "tensorflow_serving/util/json_tensor.h"
-
+#include "tensorflow_serving/servables/tvm/tvm_loader.h"
 namespace tensorflow {
 namespace serving {
 
 using tensorflow::serving::ServerCore;
 using tensorflow::serving::TensorflowPredictor;
+using tensorflow::serving::TVMBundle;
+
 
 const char* const HttpRestApiHandler::kPathRegex = kHTTPRestApiHandlerPathRegex;
 
@@ -230,7 +232,20 @@ Status HttpRestApiHandler::GetInfoMap(
     const ModelSpec& model_spec, const string& signature_name,
     ::google::protobuf::Map<string, tensorflow::TensorInfo>* infomap) {
   ServableHandle<SavedModelBundle> bundle;
-  TF_RETURN_IF_ERROR(core_->GetServableHandle(model_spec, &bundle));
+  ServableHandle<TVMBundle> tvm_bundle;
+  Status status = core_->GetServableHandle(model_spec, &bundle);
+  if (!status.ok()) {
+    TF_RETURN_IF_ERROR(core_->GetServableHandle(model_spec, &tvm_bundle));
+    const string& signame =
+      signature_name.empty() ? kDefaultServingSignatureDefKey : signature_name;
+    auto iter = tvm_bundle->meta_graph_def.signature_def().find(signame);
+    if (iter == tvm_bundle->meta_graph_def.signature_def().end()) {
+      return errors::InvalidArgument("Serving signature name: \"", signame,
+                                    "\" not found in signature def");
+  }
+  *infomap = iter->second.inputs();
+  return Status::OK();
+  }
   const string& signame =
       signature_name.empty() ? kDefaultServingSignatureDefKey : signature_name;
   auto iter = bundle->meta_graph_def.signature_def().find(signame);

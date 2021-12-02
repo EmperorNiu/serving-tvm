@@ -18,6 +18,7 @@ limitations under the License.
 #include "google/protobuf/any.pb.h"
 #include "tensorflow_serving/model_servers/model_platform_types.h"
 #include "tensorflow_serving/servables/tensorflow/saved_model_bundle_source_adapter.pb.h"
+#include "tensorflow_serving/servables/tvm/tvm_source_adapter.pb.h"
 
 namespace tensorflow {
 namespace serving {
@@ -32,6 +33,20 @@ PlatformConfigMap CreateTensorFlowPlatformConfigMap(
   source_adapter_config.PackFrom(saved_model_bundle_source_adapter_config);
   (*(*platform_config_map.mutable_platform_configs())[kTensorFlowModelPlatform]
         .mutable_source_adapter_config()) = source_adapter_config;
+  return platform_config_map;
+}
+
+PlatformConfigMap CreateTVMPlatformConfigMap(PlatformConfigMap platform_config_map,
+		                             const TVMConfig& tvm_config) {
+  ::google::protobuf::Any source_adapter_config;
+  TVMSourceAdapterConfig
+      tvm_source_adapter_config;
+  *tvm_source_adapter_config.mutable_config() = tvm_config;
+  source_adapter_config.PackFrom(tvm_source_adapter_config);
+
+  (*(*platform_config_map.mutable_platform_configs())[kTVMModelPlatform]
+        .mutable_source_adapter_config()) = source_adapter_config;
+
   return platform_config_map;
 }
 
