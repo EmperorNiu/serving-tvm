@@ -39,6 +39,22 @@ cc_library(
 )
 
 cc_library(
+    name = "predict_impl",
+    srcs = ["predict_impl.cc"],
+    hdrs = ["predict_impl.h",
+    ],
+    visibility = [
+        "//visibility:public",
+    ],
+    deps = [
+        ":ndarray_util",
+        "//tensorflow_serving/apis:predict_proto",
+        "//tensorflow_serving/core:servable_handle",
+        "//tensorflow_serving/model_servers:server_core",
+    ],
+)
+
+cc_library(
     name = "ndarray_util",
     srcs = ["ndarray_util.cc"],
     hdrs = ["ndarray_util.h", "tvm_loader.h",
@@ -77,6 +93,20 @@ cc_library(
 	        "@com_github_dmlc_tvm//3rdparty/dlpack/include",
 		"@com_github_dmlc_tvm//src/runtime"],
     alwayslink = 1,
+)
+
+cc_library(
+    name = "get_model_metadata_impl",
+    srcs = ["get_model_metadata_impl.cc"],
+    hdrs = ["get_model_metadata_impl.h"],
+    visibility = [
+        "//visibility:public",
+    ],
+    deps = [
+        "//tensorflow_serving/apis:get_model_metadata_proto",
+        "//tensorflow_serving/core:servable_handle",
+        "//tensorflow_serving/model_servers:server_core",
+    ],
 )
 
 serving_proto_library(
