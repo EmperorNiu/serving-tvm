@@ -10,6 +10,8 @@
 #include <tvm/runtime/registry.h>
 #include <tvm/runtime/packed_func.h>
 #include <tvm/runtime/ndarray.h>
+#include <tvm/runtime/object.h>
+#include <tvm/runtime/logging.h>
 
 namespace tensorflow {
 namespace serving {

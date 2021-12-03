@@ -147,7 +147,7 @@ cc_library(
         "@org_tensorflow//tensorflow/core:lib",
     ],
 )
-
+ 
 cc_test(
     name = "get_model_status_impl_test",
     size = "medium",
@@ -165,6 +165,7 @@ cc_test(
         "//tensorflow_serving/core/test_util:test_main",
         "//tensorflow_serving/servables/tensorflow:saved_model_bundle_source_adapter_cc_proto",
         "//tensorflow_serving/servables/tensorflow:session_bundle_config_cc_proto",
+        "//tensorflow_serving/servables/tvm:tvm_source_adapter_proto",
         "//tensorflow_serving/test_util",
         "@org_tensorflow//tensorflow/cc/saved_model:loader",
         "@org_tensorflow//tensorflow/cc/saved_model:signature_constants",

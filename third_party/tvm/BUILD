@@ -20,6 +20,10 @@ cc_library(
         "src/runtime/threading_backend.cc",
         "src/runtime/thread_pool.cc",
         "src/runtime/ndarray.cc",
+        "src/runtime/object.cc",
+        "src/runtime/logging.cc",
+        "src/runtime/file_utils.cc",
+        "src/runtime/container.cc",
     ],
     hdrs = glob([
       "3rdparty/dmlc-core/include/**/*.h",
