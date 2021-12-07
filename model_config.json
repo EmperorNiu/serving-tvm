@@ -1,0 +1,7 @@
+model_config_list: {
+  config: {
+    name: "tvm_test", # Some name of the model
+    base_path: "/model/mobile_net", # In side this folder folder "1" contain model.json, model.so, model.params 
+    model_platform: "tvm"
+  },
+}
